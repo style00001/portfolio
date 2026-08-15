@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>视觉设计作品集 · 互动简历</title>
+<script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+<style>
+  :root {
+    --bg: #f4f7f8;
+    --surface: #ffffff;
+    --ink: #161d24;
+    --ink-soft: #46525e;
+    --line: #dbe3e8;
+    --accent: #e85d3f;
+    --accent-deep: #c23f23;
+    --teal: #178a7c;
+    --gold: #e8a33d;
+    --violet: #6c5ce7;
+    --shadow: 0 18px 50px rgba(20, 30, 40, 0.14);
+    --radius: 8px;
+  }
+  html[data-theme="dark"] {
+    --bg: #11161b;
+    --surface: #1a222a;
+    --ink: #f2f5f7;
+    --ink-soft: #b7c1c9;
+    --line: #2c3741;
+    --shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+  [hidden] { display: none !important; }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 28px;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    letter-spacing: 0;
+  }
+  .brand-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--violet));
+    display: grid;
+    place-items: center;
+    color: #fff;
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav a {
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    transition: color 0.2s, background 0.2s;
+  }
+  .nav a:hover { color: var(--ink); background: color-mix(in srgb, var(--line) 45%, transparent); }
+  .icon-btn {
+    width: 38px;
+    height: 38px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .icon-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+  .menu-btn { display: none; }
+
+  .hero {
+    position: relative;
+    min-height: 86vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: #10151b;
+    color: #fff;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(16, 21, 27, 0.68), rgba(16, 21, 27, 0.82)), url("assets/hero.png");
+    background-size: cover;
+    background-position: center;
+    transform: scale(1.04);
+    animation: heroZoom 18s ease-in-out infinite alternate;
+  }
+  @keyframes heroZoom { from { transform: scale(1.02); } to { transform: scale(1.09); } }
+  .hero::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 180px;
+    background: linear-gradient(to top, var(--bg), transparent);
+  }
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    width: min(1080px, 92%);
+    margin: 0 auto;
+    padding: 110px 0 170px;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffb59e;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: clamp(42px, 7vw, 82px);
+    line-height: 1.08;
+    font-weight: 900;
+    letter-spacing: 0;
+    max-width: 900px;
+  }
+  .hero h1 span {
+    color: #ff8a6b;
+  }
+  .hero p {
+    margin-top: 22px;
+    max-width: 640px;
+    font-size: 18px;
+    color: #dce6ec;
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 46px;
+    padding: 0 18px;
+    border-radius: 8px;
+    font-weight: 800;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(232, 93, 63, 0.35); }
+  .btn-ghost { border: 1px solid rgba(255, 255, 255, 0.45); color: #fff; }
+  .btn-ghost:hover { background: rgba(255, 255, 255, 0.12); transform: translateY(-3px); }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 52px;
+    max-width: 900px;
+  }
+  .stat {
+    padding: 16px 18px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(8px);
+  }
+  .stat strong {
+    display: block;
+    font-size: 30px;
+    line-height: 1.1;
+    color: #ffb59e;
+  }
+  .stat span { font-size: 13px; color: #dce6ec; }
+
+  .section {
+    width: min(1080px, 92%);
+    margin: 0 auto;
+    padding: 90px 0;
+  }
+  .section-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 34px;
+  }
+  .kicker {
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0;
+  }
+  .section-head h2 {
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.15;
+    letter-spacing: 0;
+  }
+  .section-head p {
+    max-width: 440px;
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+
+  .push-layout {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .push-copy h3 {
+    font-size: 26px;
+    line-height: 1.3;
+    letter-spacing: 0;
+  }
+  .push-copy > p {
+    color: var(--ink-soft);
+    margin: 14px 0 22px;
+    max-width: 520px;
+  }
+  .control-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .seg {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface);
+  }
+  .seg button {
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    transition: background 0.2s, color 0.2s;
+  }
+  .seg button.active { background: var(--ink); color: var(--bg); }
+  .push-points {
+    display: grid;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .push-point {
+    display: flex;
+    gap: 12px;
+    align-items: start;
+    padding: 14px 16px;
+    border-radius: 8px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .push-point:hover { transform: translateX(6px); box-shadow: var(--shadow); }
+  .push-point .num {
+    flex: 0 0 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 800;
+    font-size: 13px;
+  }
+  .push-point strong { display: block; font-size: 16px; }
+  .push-point p { color: var(--ink-soft); font-size: 14px; }
+
+  .phone-wrap {
+    display: flex;
+    justify-content: center;
+  }
+  .phone {
+    width: 300px;
+    height: 610px;
+    padding: 12px;
+    border-radius: 38px;
+    background: #10151b;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.32);
+    transform: rotate(-2deg);
+    transition: transform 0.4s;
+  }
+  .phone:hover { transform: rotate(0deg) translateY(-6px); }
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    border-radius: 28px;
+    background: #f7f7f9;
+    color: #161d24;
+    padding: 18px 14px;
+    overflow: hidden;
+    position: relative;
+    transition: background 0.3s, color 0.3s;
+  }
+  .phone-screen.night { background: #131a20; color: #f2f5f7; }
+  .status {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 14px;
+  }
+  .notif {
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 12px;
+    border: 1px solid #e4e8ec;
+    background: #ffffff;
+    transition: transform 0.25s, box-shadow 0.25s, background 0.3s, border 0.3s;
+    cursor: pointer;
+  }
+  .phone-screen.night .notif {
+    background: #1c262e;
+    border-color: #2d3a45;
+    color: #eef3f6;
+  }
+  .notif:hover { transform: translateY(-4px); box-shadow: 0 16px 34px rgba(0, 0, 0, 0.14); }
+  .notif.flip { animation: flipIn 0.35s ease; }
+  @keyframes flipIn {
+    from { transform: rotateX(70deg); opacity: 0; }
+    to { transform: rotateX(0); opacity: 1; }
+  }
+  .notif-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .notif-head .dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 13px;
+    font-weight: 800;
+  }
+  .notif-head small { font-weight: 800; }
+  .notif h4 { font-size: 16px; line-height: 1.3; letter-spacing: 0; }
+  .notif p { font-size: 13px; color: var(--ink-soft); margin: 6px 0 10px; }
+  .phone-screen.night .notif p { color: #b7c1c9; }
+  .notif-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .detail-panel {
+    margin-top: 8px;
+    border-top: 1px dashed var(--line);
+    padding-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    animation: fadeUp 0.3s ease;
+  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .detail-panel div { background: var(--bg); border-radius: 8px; padding: 8px 6px; text-align: center; }
+  .detail-panel strong { display: block; font-size: 16px; }
+  .detail-panel span { font-size: 11px; color: var(--ink-soft); }
+
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .filter-bar button {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--ink-soft);
+    transition: transform 0.2s, background 0.2s, color 0.2s;
+  }
+  .filter-bar button.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .filter-bar button:hover { transform: translateY(-2px); }
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .work-card {
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    cursor: pointer;
+    transition: transform 0.25s, box-shadow 0.25s, opacity 0.25s;
+    animation: fadeUp 0.4s ease both;
+  }
+  .work-card:hover { transform: translateY(-8px); box-shadow: var(--shadow); }
+  .work-card.hide { opacity: 0; transform: scale(0.96); pointer-events: none; }
+  .work-card figure {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--line);
+  }
+  .work-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+  }
+  .work-card:hover img { transform: scale(1.07); }
+  .work-card-body { padding: 16px 18px 18px; }
+  .work-card h3 { font-size: 18px; line-height: 1.3; letter-spacing: 0; }
+  .work-card p { color: var(--ink-soft); font-size: 14px; margin: 8px 0 12px; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+    color: var(--accent-deep);
+  }
+  .tag.teal { background: color-mix(in srgb, var(--teal) 14%, transparent); color: var(--teal); }
+  .tag.gold { background: color-mix(in srgb, var(--gold) 18%, transparent); color: #9a6a12; }
+  .tag.violet { background: color-mix(in srgb, var(--violet) 14%, transparent); color: var(--violet); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .skill {
+    padding: 18px 20px;
+    border-radius: 8px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+  }
+  .skill-top {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .bar {
+    height: 10px;
+    border-radius: 999px;
+    background: var(--line);
+    overflow: hidden;
+  }
+  .bar i {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .bar.teal i { background: linear-gradient(90deg, var(--teal), #4db8a9); }
+  .bar.violet i { background: linear-gradient(90deg, var(--violet), #a78bfa); }
+
+  .quote-wrap {
+    position: relative;
+    padding: 40px 44px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--ink), #26333d);
+    color: #fff;
+    min-height: 240px;
+    display: flex;
+    align-items: center;
+  }
+  .quote-wrap blockquote {
+    font-size: clamp(22px, 3vw, 34px);
+    line-height: 1.45;
+    letter-spacing: 0;
+    font-weight: 800;
+  }
+  .quote-nav {
+    position: absolute;
+    right: 28px;
+    bottom: 24px;
+    display: flex;
+    gap: 8px;
+  }
+  .quote-nav button {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .quote-nav button:hover { background: rgba(255, 255, 255, 0.24); transform: translateY(-2px); }
+
+
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(10, 14, 18, 0.66);
+    backdrop-filter: blur(6px);
+    display: grid;
+    place-items: center;
+    padding: 20px;
+  }
+  .modal-card {
+    width: min(720px, 100%);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+    animation: fadeUp 0.3s ease;
+  }
+  .modal-card figure { aspect-ratio: 16 / 9; background: var(--line); }
+  .modal-card img { width: 100%; height: 100%; object-fit: cover; }
+  .modal-body { padding: 24px 28px 28px; }
+  .modal-body h3 { font-size: 26px; letter-spacing: 0; }
+  .modal-body p { color: var(--ink-soft); margin: 12px 0 18px; }
+  .modal-close {
+    position: absolute;
+    top: 26px;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.92);
+    color: #161d24;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 26px 28px 34px;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    .nav { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--surface); border-bottom: 1px solid var(--line); padding: 10px; flex-direction: column; align-items: stretch; }
+    .nav.open { display: flex; }
+    .menu-btn { display: inline-grid; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .push-layout, .skills-grid { grid-template-columns: 1fr; }
+    .work-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .section { padding: 70px 0; }
+    .work-grid { grid-template-columns: 1fr; }
+    .hero-inner { padding: 80px 0 150px; }
+    .quote-wrap { padding: 30px 26px; }
+    .form-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark"><i data-lucide="sparkles"></i></span>
+      <span>视觉设计作品集</span>
+    </div>
+    <nav class="nav" id="nav">
+      <a href="#home">首页</a>
+      <a href="#push">推送案例</a>
+      <a href="#works">作品</a>
+      <a href="#skills">能力</a>
+    </nav>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="icon-btn" id="themeToggle" aria-label="切换主题"><i data-lucide="moon"></i></button>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="菜单"><i data-lucide="menu"></i></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-bg"></div>
+      <div class="hero-inner">
+        <div class="eyebrow"><i data-lucide="compass" style="width:16px;height:16px;"></i> PERSONAL PORTFOLIO · RESUME</div>
+        <h1>视觉设计作品集<br><span>从需求到成品，讲清每一个结果</span></h1>
+        <p>界面设计 / 运营设计 / 图像处理 / 文案写作。擅长把复杂信息整理成一眼看懂、愿意点击、可以交付的设计。</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#push"><i data-lucide="bell-ring" style="width:18px;height:18px;"></i> 查看推送案例</a>
+          <a class="btn btn-ghost" href="#works"><i data-lucide="layout-grid" style="width:18px;height:18px;"></i> 查看作品</a>
+        </div>
+        <div class="stats">
+          <div class="stat"><strong><span class="counter" data-target="42">0</span>%</strong><span>推送点击率提升</span></div>
+          <div class="stat"><strong><span class="counter" data-target="120">0</span>W+</strong><span>累计触达用户</span></div>
+          <div class="stat"><strong><span class="counter" data-target="12">0</span>+</strong><span>完整交付项目</span></div>
+          <div class="stat"><strong><span class="counter" data-target="8">0</span>套</strong><span>可复用设计模板</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="push">
+      <div class="section-head reveal">
+        <div>
+          <div class="kicker">FEATURED CASE · PUSH DESIGN</div>
+          <h2>推送通知设计<br>全球热榜 App</h2>
+        </div>
+        <p>文案、视觉、触达路径和数据复盘一起做，让一条通知从打扰变成用户想点开的提醒。</p>
+      </div>
+      <div class="push-layout">
+        <div class="push-copy reveal">
+          <h3>从需求到数据的完整推送设计</h3>
+          <p>围绕“全球热榜”资讯 App，完成推送文案、通知视觉与触达路径设计。通过 A/B 测试验证方案，点击率提升 42%，并沉淀可复用的推送模板规范。</p>
+          <div class="control-row">
+            <div class="seg" id="variantSeg">
+              <button class="active" data-variant="a">钩子版</button>
+              <button data-variant="b">数据版</button>
+            </div>
+            <div class="seg" id="modeSeg">
+              <button class="active" data-mode="day">日间</button>
+              <button data-mode="night">夜间</button>
+            </div>
+          </div>
+          <div class="push-points">
+            <div class="push-point"><span class="num">01</span><div><strong>文案钩子</strong><p>突出时效性与利益点，两版文案 A/B 测试</p></div></div>
+            <div class="push-point"><span class="num">02</span><div><strong>视觉层级</strong><p>品牌色、大图和行动按钮，3 秒内看懂信息</p></div></div>
+            <div class="push-point"><span class="num">03</span><div><strong>触达路径</strong><p>通知直达榜单页，减少跳转步骤</p></div></div>
+            <div class="push-point"><span class="num">04</span><div><strong>数据复盘</strong><p>回收点击率、留存与卸载率，持续优化</p></div></div>
+          </div>
+        </div>
+        <div class="phone-wrap reveal">
+          <div class="phone">
+            <div class="phone-screen" id="phoneScreen">
+              <div class="status"><span>9:41</span><span>全球热榜</span></div>
+              <div class="notif" id="notifA">
+                <div class="notif-head"><span class="dot">热</span><small>环球热榜</small></div>
+                <h4>全球资讯已更新</h4>
+                <p>全球 TOP10 热度新闻已整理，点击查看完整榜单。</p>
+                <span class="notif-cta">查看今日榜单 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
+                <div class="detail-panel">
+                  <div><strong>18.6%</strong><span>打开率</span></div>
+                  <div><strong>6.2%</strong><span>点击率</span></div>
+                  <div><strong>0.8%</strong><span>退订率</span></div>
+                </div>
+              </div>
+              <div class="notif" id="notifB" style="display:none;">
+                <div class="notif-head"><span class="dot" style="background:var(--teal);">榜</span><small>环球热榜</small></div>
+                <h4>你关注的科技榜又热了</h4>
+                <p>科技资讯热度 +32%，点击查看完整榜单。</p>
+                <span class="notif-cta">去看看 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
+                <div class="detail-panel">
+                  <div><strong>24.1%</strong><span>打开率</span></div>
+                  <div><strong>8.4%</strong><span>点击率</span></div>
+                  <div><strong>0.6%</strong><span>退订率</span></div>
+                </div>
+              </div>
+              <div class="notif">
+                <div class="notif-head"><span class="dot" style="background:var(--gold);">藏</span><small>收藏提醒</small></div>
+                <h4>收藏内容有更新</h4>
+                <p>你收藏的“全球科技榜”已新增 3 条热门资讯。</p>
+                <span class="notif-cta">查看收藏 <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="works">
+      <div class="section-head reveal">
+        <div>
+          <div class="kicker">SELECTED WORKS</div>
+          <h2>作品展示</h2>
+        </div>
+        <p>点击任意作品查看详情，也可以按能力方向筛选。</p>
+      </div>
+      <div class="filter-bar reveal" id="filterBar">
+        <button class="active" data-filter="all">全部</button>
+        <button data-filter="ui">界面设计</button>
+        <button data-filter="ops">运营设计</button>
+        <button data-filter="image">图像处理</button>
+        <button data-filter="copy">文案写作</button>
+      </div>
+      <div class="work-grid" id="workGrid">
+        <article class="work-card reveal in-view" data-category="ops" data-title="推送通知设计案例" data-desc="围绕全球热榜资讯 App，完成推送文案、通知视觉与触达路径设计。通过 A/B 测试验证方案，点击率提升 42%，并沉淀可复用的推送模板规范。" data-img="assets/work-push.png">
+          <figure><img src="assets/work-push.png" alt="推送通知设计案例"></figure>
+          <div class="work-card-body">
+            <h3>推送通知设计案例</h3>
+            <p>文案 A/B 测试、视觉层级与触达路径，点击率提升 42%。</p>
+            <div class="tag-row"><span class="tag">运营设计</span><span class="tag gold">A/B 测试</span></div>
+          </div>
+        </article>
+        <article class="work-card reveal in-view" data-category="ui" data-title="高保真界面视觉稿" data-desc="完成多套界面视觉稿，覆盖首页、功能页与信息面板等场景，统一配色、字体与间距规范，信息层级清晰，可直接进入开发评审。" data-img="assets/work-ui.png">
+          <figure><img src="assets/work-ui.png" alt="高保真界面视觉稿"></figure>
+          <div class="work-card-body">
+            <h3>高保真界面视觉稿</h3>
+            <p>统一配色、字体与间距，信息层级清晰，可直接进入开发评审。</p>
+            <div class="tag-row"><span class="tag">界面设计</span><span class="tag teal">Figma</span></div>
+          </div>
+        </article>
+        <article class="work-card reveal in-view" data-category="image" data-title="AI 高清重建" data-desc="基于 FSRCNN / ESPCN 模型进行图像超分实验，恢复边缘细节，提升放大后画面的清晰度，并对比不同模型的输出质量。" data-img="assets/work-ai.png">
+          <figure><img src="assets/work-ai.png" alt="AI 高清重建"></figure>
+          <div class="work-card-body">
+            <h3>AI 高清重建</h3>
+            <p>基于 FSRCNN / ESPCN 完成图像超分实验，恢复边缘细节。</p>
+            <div class="tag-row"><span class="tag">图像处理</span><span class="tag violet">FSRCNN</span></div>
+          </div>
+        </article>
+        <article class="work-card reveal in-view" data-category="copy" data-title="产品发布新闻稿" data-desc="撰写产品发布新闻稿、流程说明等商业文案，内容结构清晰，表达规范得体，能把功能价值讲成用户听得懂的语言。" data-img="assets/work-copy.png">
+          <figure><img src="assets/work-copy.png" alt="产品发布新闻稿"></figure>
+          <div class="work-card-body">
+            <h3>产品发布新闻稿</h3>
+            <p>结构清晰、表达规范，把功能价值讲成用户听得懂的语言。</p>
+            <div class="tag-row"><span class="tag">文案写作</span><span class="tag gold">新闻稿</span></div>
+          </div>
+        </article>
+        <article class="work-card reveal in-view" data-category="image" data-title="清晰度锐化优化" data-desc="在超分基础上进一步做锐化与观感调整，减少模糊与噪点，输出更利于展示和打印的最终稿。" data-img="assets/work-sharp.png">
+          <figure><img src="assets/work-sharp.png" alt="清晰度锐化优化"></figure>
+          <div class="work-card-body">
+            <h3>清晰度锐化优化</h3>
+            <p>在超分基础上做锐化与观感调整，减少模糊与噪点。</p>
+            <div class="tag-row"><span class="tag">图像处理</span><span class="tag teal">调色</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="skills">
+      <div class="section-head reveal">
+        <div>
+          <div class="kicker">CAPABILITIES</div>
+          <h2>能力清单</h2>
+        </div>
+        <p>从视觉表达到数据复盘，覆盖设计工作中最常被需要的完整链路。</p>
+      </div>
+      <div class="skills-grid">
+        <div class="skill reveal"><div class="skill-top"><span>界面设计 / Figma</span><span>90%</span></div><div class="bar"><i data-width="90"></i></div></div>
+        <div class="skill reveal"><div class="skill-top"><span>视觉排版</span><span>88%</span></div><div class="bar teal"><i data-width="88"></i></div></div>
+        <div class="skill reveal"><div class="skill-top"><span>图像处理与超分</span><span>86%</span></div><div class="bar violet"><i data-width="86"></i></div></div>
+        <div class="skill reveal"><div class="skill-top"><span>文案写作</span><span>92%</span></div><div class="bar"><i data-width="92"></i></div></div>
+        <div class="skill reveal"><div class="skill-top"><span>交互流程</span><span>84%</span></div><div class="bar teal"><i data-width="84"></i></div></div>
+        <div class="skill reveal"><div class="skill-top"><span>数据分析复盘</span><span>78%</span></div><div class="bar violet"><i data-width="78"></i></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="writing">
+      <div class="section-head reveal">
+        <div>
+          <div class="kicker">WRITING</div>
+          <h2>文案作品</h2>
+        </div>
+        <p>几条常被引用的句子，代表我对产品、流程和设计结果的表达方式。</p>
+      </div>
+      <div class="quote-wrap reveal">
+        <blockquote id="quoteText">“流程透明带来的另一个变化，是交接变得简单。”</blockquote>
+        <div class="quote-nav">
+          <button id="quotePrev" aria-label="上一条"><i data-lucide="chevron-left" style="width:18px;height:18px;"></i></button>
+          <button id="quoteNext" aria-label="下一条"><i data-lucide="chevron-right" style="width:18px;height:18px;"></i></button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <span>作品集简历 · 视觉设计方向</span>
+    <span>图片素材来自网络公开图片库，内容均为个人项目示例</span>
+  </footer>
+
+  <div class="modal" id="workModal" hidden>
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose" aria-label="关闭"><i data-lucide="x"></i></button>
+      <figure><img id="modalImg" src="" alt="作品详情"></figure>
+      <div class="modal-body">
+        <h3 id="modalTitle"></h3>
+        <p id="modalDesc"></p>
+        <div class="tag-row" id="modalTags"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      function icons() {
+        if (window.lucide) window.lucide.createIcons();
+      }
+      icons();
+
+      const root = document.documentElement;
+      const themeBtn = document.getElementById("themeToggle");
+      themeBtn.addEventListener("click", () => {
+        const next = root.dataset.theme === "dark" ? "light" : "dark";
+        root.dataset.theme = next;
+        themeBtn.innerHTML = next === "dark" ? '<i data-lucide="sun"></i>' : '<i data-lucide="moon"></i>';
+        icons();
+      });
+
+      const menuBtn = document.getElementById("menuBtn");
+      const nav = document.getElementById("nav");
+      menuBtn.addEventListener("click", () => nav.classList.toggle("open"));
+      nav.addEventListener("click", (e) => {
+        if (e.target.closest("a")) nav.classList.remove("open");
+      });
+
+      const revealEls = document.querySelectorAll(".reveal");
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.18 });
+      revealEls.forEach((el) => io.observe(el));
+
+      const counters = document.querySelectorAll(".counter");
+      const counterIO = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          const target = Number(el.dataset.target);
+          const start = performance.now();
+          const duration = 1100;
+          function tick(now) {
+            const p = Math.min(1, (now - start) / duration);
+            el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+            if (p < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+          counterIO.unobserve(el);
+        });
+      }, { threshold: 0.5 });
+      counters.forEach((el) => counterIO.observe(el));
+
+      const variantSeg = document.getElementById("variantSeg");
+      const modeSeg = document.getElementById("modeSeg");
+      const phoneScreen = document.getElementById("phoneScreen");
+      const notifA = document.getElementById("notifA");
+      const notifB = document.getElementById("notifB");
+      variantSeg.addEventListener("click", (e) => {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+        variantSeg.querySelectorAll("button").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        const variant = btn.dataset.variant;
+        const show = variant === "a" ? notifA : notifB;
+        const hide = variant === "a" ? notifB : notifA;
+        show.style.display = "";
+        hide.style.display = "none";
+        show.classList.remove("flip");
+        void show.offsetWidth;
+        show.classList.add("flip");
+      });
+      modeSeg.addEventListener("click", (e) => {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+        modeSeg.querySelectorAll("button").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        phoneScreen.classList.toggle("night", btn.dataset.mode === "night");
+      });
+
+      document.querySelectorAll(".notif").forEach((n) => {
+        n.addEventListener("click", () => {
+          const panel = n.querySelector(".detail-panel");
+          if (panel) panel.hidden = !panel.hidden;
+        });
+      });
+
+      const filterBar = document.getElementById("filterBar");
+      const cards = Array.from(document.querySelectorAll(".work-card"));
+      filterBar.addEventListener("click", (e) => {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+        filterBar.querySelectorAll("button").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        const filter = btn.dataset.filter;
+        cards.forEach((card) => {
+          const match = filter === "all" || card.dataset.category === filter;
+          card.style.display = match ? "" : "none";
+          card.classList.toggle("hide", !match);
+        });
+      });
+
+      const modal = document.getElementById("workModal");
+      const modalImg = document.getElementById("modalImg");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalDesc = document.getElementById("modalDesc");
+      const modalTags = document.getElementById("modalTags");
+      cards.forEach((card) => {
+        card.addEventListener("click", () => {
+          modalImg.src = card.dataset.img;
+          modalImg.alt = card.dataset.title;
+          modalTitle.textContent = card.dataset.title;
+          modalDesc.textContent = card.dataset.desc;
+          modalTags.innerHTML = card.querySelector(".tag-row").innerHTML;
+          modal.hidden = false;
+          icons();
+        });
+      });
+      document.getElementById("modalClose").addEventListener("click", () => { modal.hidden = true; });
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) modal.hidden = true;
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") modal.hidden = true;
+      });
+
+      const skillBars = document.querySelectorAll(".bar i");
+      const skillIO = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.width = entry.target.dataset.width + "%";
+            skillIO.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.4 });
+      skillBars.forEach((bar) => skillIO.observe(bar));
+
+      const quotes = [
+        "“流程透明带来的另一个变化，是交接变得简单。”",
+        "“好的推送不是打扰，而是在用户需要的那一刻出现。”",
+        "“设计不是把东西画好看，而是让信息更快被理解。”",
+        "“把结果讲清楚，和把方案做出来同样重要。”"
+      ];
+      let quoteIndex = 0;
+      const quoteText = document.getElementById("quoteText");
+      function setQuote(i) {
+        quoteIndex = (i + quotes.length) % quotes.length;
+        quoteText.style.opacity = "0";
+        setTimeout(() => {
+          quoteText.textContent = quotes[quoteIndex];
+          quoteText.style.opacity = "1";
+        }, 180);
+      }
+      quoteText.style.transition = "opacity 0.2s";
+      document.getElementById("quotePrev").addEventListener("click", () => setQuote(quoteIndex - 1));
+      document.getElementById("quoteNext").addEventListener("click", () => setQuote(quoteIndex + 1));
+
+    })();
+  </script>
+</body>
+</html>
